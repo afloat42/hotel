@@ -68,10 +68,14 @@ class MainGUI():
         # Guest menu
         # do not use self.create_guest_gui()
         # Will be executed automatically!
-        menubar.add_command(label="Guest", command=self.create_guest_gui)
+        guestmenu = tk.Menu(menubar, tearoff=0)
+        guestmenu.add_command(label="Guest", command=self.create_guest_gui)
+        menubar.add_cascade(label="Guest", menu=guestmenu)
 
         # Employee menu
-        menubar.add_command(label="Employee", command=self.create_employee_gui)
+        employeemenu = tk.Menu(menubar, tearoff=0)
+        employeemenu.add_command(label="Employee", command=self.create_employee_gui)
+        menubar.add_cascade(label="Employee", menu=employeemenu)
 
         # Display the menu
         self.root.config(menu=menubar)
