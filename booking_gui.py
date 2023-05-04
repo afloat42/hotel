@@ -7,7 +7,7 @@ from tkinter import messagebox
 import tkinter.ttk as ttk # for combobox
 
 from validation import Validation
-from employee_dao import EmployeeDAO
+from booking_dao import BookingDAO
 
 class EmployeeGUI():
     """GUI class to perform CRUD operations on the doctor table in the database"""
@@ -17,7 +17,7 @@ class EmployeeGUI():
 
         # Instantiate a data access object 
         # Contains methods to access the database
-        self.employee_dao = EmployeeDAO
+        self.booking_dao = BookingDAO
 
         # Instantiate a calidation object
         # contains methods to validate input fields
@@ -25,20 +25,22 @@ class EmployeeGUI():
 
         # Form fields
         # Instantiate stringvars - hold  data entered in  fields of form
-        self.employee_id = tk.StringVar()
-        self.last_name = tk.StringVar()
-        self.first_name = tk.StringVar()
-        self.phonenumber = tk.StringVar()
-        self.email = tk.StringVar()
-        self.address = tk.StringVar()
-        self.dob = tk.StringVar()
-        self.hotel_id = tk.StringVar()
+        self.booking_no = tk.StringVar()
+        self.booking_date = tk.StringVar()
+        self.guestname = tk.StringVar()
+        self.arrivaldate = tk.StringVar()
+        self.departuredate = tk.StringVar()
+        self.numadult = tk.StringVar()
+        self.numchildren = tk.StringVar()
+        self.numinfants = tk.StringVar()
+        self.room_no = tk.StringVar()
+        self.guest_no = tk.StringVar()
 
         # List of employee ids - lb for listbox
         self.lb_id = None
 
         # Messagebox title
-        self.mb_title_bar = "Employee CRUD"
+        self.mb_title_bar = "Booking CRUD"
 
         pass
 
@@ -58,7 +60,7 @@ class EmployeeGUI():
         # After debugging, you may want to "comment out" some of the 
         # print statements so that they do not execute and print too 
         # much stuff in the console
-        print("\nCreating employee gui")
+        print("\nCreating booking gui")
 
         # employee_frame = tk.Frame(root).pack() 
         # cannot write the above as pack() does not return anything
@@ -68,8 +70,8 @@ class EmployeeGUI():
         # The height and width or the root window can be specified 
         # in the main GUI (or in the main() method)
 
-        employee_frame = tk.Frame(root)
-        employee_frame.pack()
+        booking_frame = tk.Frame(root)
+        booking_frame.pack()
 
         # Add a frame to contain the form widgets
         # To put a number of widgets in a column one on top of the other, 
@@ -83,7 +85,7 @@ class EmployeeGUI():
         # default is tk.CENTER
         # Internal padding around widgets: ipadx= and ipady=  default is 0
         # External padding arounf widgets: padx= pady=  default is 0
-        form_frame = tk.Frame(employee_frame)
+        form_frame = tk.Frame(booking_frame)
         form_frame.pack()
 
         # row 0:  title label
@@ -108,12 +110,12 @@ class EmployeeGUI():
         tk.Label(
             form_frame,
             font=('arial, 10'),
-            text = "Employee").grid(row =0, column=0, columnspan=3)
+            text = "Booking").grid(row =0, column=0, columnspan=3)
         
         # row 1: guest_no label, guest_no entry and list_of_nos label
         tk.Label(
             form_frame, 
-            text= "Employee Number", 
+            text= "ooking Number", 
             font=('arial', 10), 
             width=20, 
             anchor="e", 
@@ -126,7 +128,7 @@ class EmployeeGUI():
         # Use the width= option to specify how wide in terms of number of characters
         tk.Entry(
             form_frame, 
-            textvariable=self.employee_id, 
+            textvariable=self.booking_no, 
             width=30, 
             bd=1, 
             state=tk.DISABLED).grid(row=1, column=1)
@@ -135,13 +137,13 @@ class EmployeeGUI():
         # was specified in the database schema
         tk.Label(
             form_frame, 
-            text= "Employee Nos", 
+            text= "Booking Nos", 
             font=('arial', 10)).grid(row=1, column=2)
         
         # row 2: last_name label, last_name entry and listbox of numbers
         tk.Label(
             form_frame, 
-            text= "Last name", 
+            text= "Booking date", 
             font=('arial', 10), 
             width=20, 
             anchor="e", 
@@ -150,7 +152,7 @@ class EmployeeGUI():
             padx=10).grid(row=2, column=0)
         tk.Entry(
             form_frame, 
-            textvariable=self.last_name, 
+            textvariable=self.booking_date, 
             width=30, 
             bd=1).grid(row=2, column=1)
         # Use the height= option to specify the height, default is 10
@@ -167,7 +169,7 @@ class EmployeeGUI():
         # row 3: first_name label and entry (the listbox will go through)
         tk.Label(
             form_frame, 
-            text= "First name", 
+            text= "guest name", 
             font=('arial', 10), 
             width=20, 
             anchor="e", 
@@ -176,14 +178,14 @@ class EmployeeGUI():
             padx=10).grid(row=3, column=0)
         tk.Entry(
             form_frame, 
-            textvariable=self.first_name, 
+            textvariable=self.guestname, 
             width=30, 
             bd=1).grid(row=3, column=1)
         
         # row 4: phone number label and combobox (the listbox will go through)
         tk.Label(
             form_frame, 
-            text= "Phone number", 
+            text= "arrival date", 
             font=('arial', 10), 
             width=20, 
             anchor="e", 
@@ -192,14 +194,14 @@ class EmployeeGUI():
             padx=10).grid(row=4, column=0)
         tk.Entry(
             form_frame, 
-            textvariable=self.phonenumber, 
+            textvariable=self.arrivaldate, 
             width=30, 
             bd=1).grid(row=4, column=1)
         
         # row 5: email label and combobox (the listbox will go through)
         tk.Label(
             form_frame, 
-            text= "Email", 
+            text= "depart uredate", 
             font=('arial', 10), 
             width=20, 
             anchor="e", 
@@ -208,7 +210,7 @@ class EmployeeGUI():
             padx=10).grid(row=5, column=0)
         tk.Entry(
             form_frame, 
-            textvariable=self.email, 
+            textvariable=self.departuredate, 
             width=30, 
             bd=1).grid(row=5, column=1)
 
@@ -586,3 +588,4 @@ if __name__ == '__main__':
     # the endless window loop to process user inputs
     root.mainloop()
     pass
+
